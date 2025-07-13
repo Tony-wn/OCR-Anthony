@@ -7,21 +7,31 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-@model DescripcionImagen
+@model ResultadoOCR
 
-<h2>Descripción de imagen con Azure Vision</h2>
+<h2>OCR con Azure Computer Vision</h2>
 
-<form method="post">
-    <label>URL de la imagen:</label>
-    <input type="text" name="imageUrl" class="form-control" />
-    <button type="submit" class="btn btn-primary mt-2">Analizar Imagen</button>
+<form method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label>URL de imagen:</label>
+        <input type="text" name="imageUrl" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Subir imagen local:</label>
+        <input type="file" name="imageFile" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Procesar</button>
 </form>
 
-@if (Model?.DescripcionEs != null)
+@if (Model != null)
 {
     <hr />
-    <h4>Resultados:</h4>
-    <img src="@Model.UrlOrPath" style="max-width: 400px;" />
-    <p><strong>Español:</strong> @Model.DescripcionEs</p>
-    <p><strong>Inglés:</strong> @Model.DescripcionEn</p>
+    <img src="@Model.ImagePath" style="max-width: 300px;" />
+    <h4 class="mt-3">Texto detectado:</h4>
+    <pre>@Model.OriginalText</pre>
+
+    <h4>Traducción (inglés):</h4>
+    <pre>@Model.TranslatedText</pre>
 }
