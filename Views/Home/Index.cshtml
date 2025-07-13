@@ -6,3 +6,22 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+@model DescripcionImagen
+
+<h2>Descripción de imagen con Azure Vision</h2>
+
+<form method="post">
+    <label>URL de la imagen:</label>
+    <input type="text" name="imageUrl" class="form-control" />
+    <button type="submit" class="btn btn-primary mt-2">Analizar Imagen</button>
+</form>
+
+@if (Model?.DescripcionEs != null)
+{
+    <hr />
+    <h4>Resultados:</h4>
+    <img src="@Model.UrlOrPath" style="max-width: 400px;" />
+    <p><strong>Español:</strong> @Model.DescripcionEs</p>
+    <p><strong>Inglés:</strong> @Model.DescripcionEn</p>
+}

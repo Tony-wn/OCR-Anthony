@@ -1,32 +1,38 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 using OCR_Anthony.Models;
+using OCR_Anthony.Services;
 
 namespace OCR_Anthony.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+		private readonly VisionService _visionService;
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+		public HomeController(VisionService visionService)
+		{
+			_visionService = visionService;
+		}
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+		[HttpGet]
+		public IActionResult Index()
+		{
+			return View();
+		}
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+		[HttpPost]
+		public async Task<IActionResult> Index(string imageUrl)
+		{
+			var (descEs, descEn) = await _visionService.DescribeImageAsync(imageUrl);
+			var model = new DescripcionImagen
+			{
+				UrlOrPath = imageUrl,
+				DescripcionEs = descEs,
+				DescripcionEn = descEn
+			};
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    }
+			return View(model);
+		}
+	}
 }
