@@ -49,7 +49,20 @@ namespace OCR_Anthony.Controllers
 			if (string.IsNullOrEmpty(imagePath))
 				return View();
 
-			var text = await _ocrService.ExtractTextAsync(imagePath);
+			string text = null;
+
+			if (imageFile != null && imageFile.Length > 0)
+			{
+				using (var stream = imageFile.OpenReadStream())
+				{
+					text = await _ocrService.ExtractTextAsync(stream);
+				}
+			}
+			else if (!string.IsNullOrEmpty(imageUrl))
+			{
+				text = await _ocrService.ExtractTextAsync(imageUrl);
+			}
+
 			var translated = await _translationService.TranslateAsync(text, "en");
 
 			var model = new ResultadoOCR

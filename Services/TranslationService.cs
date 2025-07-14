@@ -1,8 +1,8 @@
-﻿namespace OCR_Anthony.Services
+﻿using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
+namespace OCR_Anthony.Services
 {
-	using System.Net.Http.Headers;
-	using System.Text;
-	using System.Text.Json;
 	public class TranslationService
 	{
 		private readonly string _endpoint;
