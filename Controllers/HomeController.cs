@@ -63,7 +63,7 @@ namespace OCR_Anthony.Controllers
 				text = await _ocrService.ExtractTextAsync(imageUrl);
 			}
 
-			var translated = await _translationService.TranslateAsync(text, "en");
+			var translated = await _translationService.TranslateAsync(text, "pt-BR");
 
 			var model = new ResultadoOCR
 			{
